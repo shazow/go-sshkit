@@ -60,7 +60,7 @@ func (limit *inputLimiter) Count(n int) error {
 		limit.timeRead = now.Add(limit.Frequency)
 	}
 	if n <= limit.readCap {
-		limit.numRead += 1
+		limit.numRead++
 	} else {
 		limit.numRead += n
 	}

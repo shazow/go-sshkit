@@ -43,14 +43,14 @@ func (c sshConn) Name() string {
 	return c.User()
 }
 
-// Extending ssh/terminal to include a closer interface
+// Terminal is extending ssh/terminal to include a closer interface
 type Terminal struct {
 	terminal.Terminal
 	Conn    Connection
 	Channel ssh.Channel
 }
 
-// Make new terminal from a session channel
+// NewTerminal creates a Terminal from a session channel
 func NewTerminal(conn *ssh.ServerConn, ch ssh.NewChannel) (*Terminal, error) {
 	if ch.ChannelType() != "session" {
 		return nil, errors.New("terminal requires session channel")
@@ -75,7 +75,7 @@ func NewTerminal(conn *ssh.ServerConn, ch ssh.NewChannel) (*Terminal, error) {
 	return &term, nil
 }
 
-// Find session channel and make a Terminal from it
+// NewSession finds a session channel and makes a Terminal from it
 func NewSession(conn *ssh.ServerConn, channels <-chan ssh.NewChannel) (term *Terminal, err error) {
 	for ch := range channels {
 		if t := ch.ChannelType(); t != "session" {

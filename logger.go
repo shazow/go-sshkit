@@ -5,6 +5,7 @@ import stdlog "log"
 
 var logger *stdlog.Logger
 
+// SetLogger replaces the library's log writer
 func SetLogger(w io.Writer) {
 	flags := stdlog.Flags()
 	prefix := "[sshkit] "

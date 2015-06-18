@@ -7,14 +7,14 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-// Container for the connection and ssh-related configuration
+// SSHListener is a container for the connection and ssh-related configuration
 type SSHListener struct {
 	net.Listener
 	config    *ssh.ServerConfig
 	RateLimit func() rateio.Limiter
 }
 
-// Make an SSH listener socket
+// ListenSSH makes an SSH listener socket
 func ListenSSH(laddr string, config *ssh.ServerConfig) (*SSHListener, error) {
 	socket, err := net.Listen("tcp", laddr)
 	if err != nil {
@@ -41,7 +41,7 @@ func (l *SSHListener) handleConn(conn net.Conn) (*Terminal, error) {
 	return NewSession(sshConn, channels)
 }
 
-// Accept incoming connections as terminal requests and yield them
+// ServeTerminal accepts incoming connections as terminal requests and yield them
 func (l *SSHListener) ServeTerminal() <-chan *Terminal {
 	ch := make(chan *Terminal)
 
